@@ -1,33 +1,63 @@
+import java.lang.management.OperatingSystemMXBean;
 import java.util.*;
 
 public class TwoSum {
     
+    /**
+     * Performs TwoSum with the argument as the length of the array.
+     * The array is randomly generated with values from 1 to 10n where n is length.
+     * Can perform multiple TwoSums if given more than 1 argument.
+     * 
+     * @param args The lengths of the arrays.
+     */
     public static void main(String[] args) {
-        // Generate a random array of length n with values from 1 to 10 * n.
-        int n = 10;
-        int[] arr = new int[n];
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = randomInt(n * 10);
+        if (args.length == 0) System.out.println("No input given. Please provide at least 1 array length (greater than 1)");
+        for (int operation_num = 0; operation_num < args.length; operation_num++) {
+            int n;
+            try {
+                n = Integer.parseInt(args[operation_num]);
+            } catch (NumberFormatException e) {
+                System.out.println("Skipping because n value is not a number. Given: " + args[operation_num]);
+                continue;
+            }
+            if (n < 2) {
+                System.out.println("Skipping because n value is less than 2. Given: " + args[operation_num]);
+                continue;
+            }
+
+            System.out.println("n: " + n);
+            // Generate a random array of length n with values from 1 to 10 * n.
+            int[] arr = new int[n];
+            for (int i = 0; i < arr.length; i++) {
+                arr[i] = randomInt(n * 10);
+            }
+
+            // Find two random and different indeces from the array.
+            int index1 = randomInt(arr.length) - 1;
+            int index2;
+            do {
+                index2 = randomInt(arr.length) - 1;
+            } while(index1 == index2);
+            
+            // Perform the TwoSum and record the time
+            int target = arr[index1] + arr[index2];
+            long start = System.currentTimeMillis();
+            int[] ans = twoSum(arr, target);
+            long end = System.currentTimeMillis();
+
+            // Prints results
+            // printArr(arr);
+
+            if (ans.length == 0) System.out.println("Error: Indeces not found."); // This should not occur.
+            else {
+                System.out.println("Indeces found: " + ans[0] + ", " + ans[1] + ". Target: " + target + ". Match? " + (target == arr[ans[0]] + arr[ans[1]]));
+                System.out.println("Time taken: " + (end - start) + "ms");
+            } 
+
+            // FailCheck
+            System.out.println("Fail Check: " + failCheck());
+            System.out.println("========================================");
         }
-
-        // Find two random and different indeces from the array.
-        int index1 = randomInt(arr.length) - 1;
-        int index2;
-        do {
-            index2 = randomInt(arr.length) - 1;
-        } while(index1 == index2);
-        
-        // Perform the TwoSum
-        int target = arr[index1] + arr[index2];
-        int[] ans = twoSum(arr, target);
-        printArr(arr);
-
-        // Prints results
-        if (ans.length == 0) System.out.println("Error: Indeces not found."); // This should not occur.
-        else System.out.println("Indeces found: " + ans[0] + ", " + ans[1] + ". Target: " + target + ". Match? " + (target == arr[ans[0]] + arr[ans[1]]));
-
-        // FailCheck
-        System.out.printf("Fail Check: " + failCheck());
     } 
 
     /**
