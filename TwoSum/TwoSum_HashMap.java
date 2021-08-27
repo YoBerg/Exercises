@@ -1,7 +1,7 @@
 import java.lang.management.OperatingSystemMXBean;
 import java.util.*;
 
-public class TwoSum {
+public class TwoSum_HashMap {
     
     /**
      * Performs TwoSum with the argument as the length of the array.
@@ -42,7 +42,7 @@ public class TwoSum {
             // Perform the TwoSum and record the time
             int target = arr[index1] + arr[index2];
             long start = System.currentTimeMillis();
-            int[] ans = twoSum(arr, target);
+            int[] ans = twoSumMap(arr, target);
             long end = System.currentTimeMillis();
 
             // Prints results
